@@ -100,9 +100,40 @@ public static Dictionary<string, int> SummarizeDegrees(string filename)
 public static bool IsAnagram(string word1, string word2)      
 {      
     // TODO Problem 3 - ADD YOUR CODE HERE      
-    return false;      
-}      
-  
+    var counts = new Dictionary<char, int>();
+
+    // Normalize: remove spaces and convert to lowercase
+    word1 = word1.Replace(" ", "").ToLower();
+    word2 = word2.Replace(" ", "").ToLower();
+
+    // If lengths differ after normalization, they cannot be anagrams
+    if (word1.Length != word2.Length)
+        return false;
+
+    // Count letters in word1
+    foreach (var c in word1)
+    {
+        if (counts.ContainsKey(c))
+            counts[c]++;
+        else
+            counts[c] = 1;
+    }
+
+    // Subtract counts using word2
+    foreach (var c in word2)
+    {
+        if (!counts.ContainsKey(c))
+            return false;
+
+        counts[c]--;
+
+        if (counts[c] < 0)
+            return false;
+    }
+
+    return true;
+}
+    
 /// <summary>      
 /// This function will read JSON (Javascript Object Notation) data from the       
 /// United States Geological Service (USGS) consisting of earthquake data.      
