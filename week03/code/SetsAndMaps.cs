@@ -148,24 +148,29 @@ public static bool IsAnagram(string word1, string word2)
 /// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php      
 ///       
 /// </summary>      
-public static string[] EarthquakeDailySummary()      
-{      
-    const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";      
-    using var client = new HttpClient();      
-    using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);      
-    using var jsonStream = client.Send(getRequestMessage).Content.ReadAsStream();      
-    using var reader = new StreamReader(jsonStream);      
-    var json = reader.ReadToEnd();      
-    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };      
-  
-    var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);      
-  
-    // TODO Problem 5:      
-    // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties       
-    // on those classes so that the call to Deserialize above works properly.      
-    // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.      
-    // 3. Return an array of these string descriptions.      
-    return [];      
-}
+public static string[] EarthquakeDailySummary()
+{
+    const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+    using var client = new HttpClient();
+    using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+    using var jsonStream = client.Send(getRequestMessage).Content.ReadAsStream();
+    using var reader = new StreamReader(jsonStream);
+    var json = reader.ReadToEnd();
+    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
+    var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
+
+    // TODO Problem 5:
+    
+    var results = new List<string>();
+
+    foreach (var feature in featureCollection.Features)
+    {
+        var place = feature.Properties.Place;
+        var magnitude = feature.Properties.Magnitude;
+
+        results.Add($"Location: {place}, Magnitude: {magnitude}");
+    }
+
+    return results.ToArray();
 }
