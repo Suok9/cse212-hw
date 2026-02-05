@@ -65,7 +65,17 @@ public static Dictionary<string, int> SummarizeDegrees(string filename)
     foreach (var line in File.ReadLines(filename))      
     {      
         var fields = line.Split(",");      
-        // TODO Problem 2 - ADD YOUR CODE HERE      
+        // TODO Problem 2 - ADD YOUR CODE HERE 
+        var degree = fields[3].Trim();
+
+        if (degrees.ContainsKey(degree))
+        {
+            degrees[degree]++;
+        }
+        else
+        {
+            degrees[degree] = 1;
+        }
     }      
   
     return degrees;      
