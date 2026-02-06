@@ -164,13 +164,14 @@ public static string[] EarthquakeDailySummary()
     
     var results = new List<string>();
 
-    foreach (var feature in featureCollection.Features)
+    foreach (var feature in featureCollection.features)
     {
-        var place = feature.Properties.Place;
-        var magnitude = feature.Properties.Magnitude;
+        var place = feature.properties.place;
+        var magnitude = feature.properties.mag;
 
         results.Add($"Location: {place}, Magnitude: {magnitude}");
     }
 
     return results.ToArray();
+}
 }
