@@ -41,7 +41,25 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // TODO Start Problem 2
+        if (word.Length == size)
+    {
+        results.Add(word);
+        return;
+    }
+
+    // Recursive case
+    for (int i = 0; i < letters.Length; i++)
+    {
+        string remaining =
+            letters.Substring(0, i) + letters.Substring(i + 1);
+
+        PermutationsChoose(
+            results,
+            remaining,
+            size,
+            word + letters[i]
+        );
+    }
     }
 
     /// <summary>
